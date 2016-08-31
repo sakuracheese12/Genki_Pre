@@ -22,23 +22,26 @@ public class CameraController : MonoBehaviour {
         int right = !Input.GetKey(KeyCode.RightArrow) ? Input.GetKey(KeyCode.LeftArrow) ? -1 : 0 : 1;
         int forward = !Input.GetKey(KeyCode.UpArrow) ? Input.GetKey(KeyCode.DownArrow) ? -1 : 0 : 1;
 
-        if (right != 0) longitude(right * speed);
-        if (forward != 0) latitude(forward * speed);
+        if (right != 0) Longitude(right * speed);
+        if (forward != 0) Latitude(forward * speed);
     }
 	
 	void LateUpdate ()
     {
-        transform.position = player.transform.position + offset;
+        FollowPlayer();
     }
 
     // ----- public -----
 
-    public Quaternion getYRotate() { return yRotate; }
-    
-    // ---- private ----
+    public void FollowPlayer()
+    {
+        transform.position = player.transform.position + offset;
+    }
+
+    public Quaternion GetYRotate() { return yRotate; }
 
     // 経度 +right -left
-    private void longitude(float angle)
+    public void Longitude(float angle)
     {
         Vector3 axis = Vector3.down;
         transform.RotateAround(player.transform.position, axis, angle);
@@ -49,9 +52,9 @@ public class CameraController : MonoBehaviour {
     }
 
     // 緯度 +up -down
-    private void latitude(float angle)
+    public void Latitude(float angle)
     {
-        Vector3 axis = getYRotate() * Vector3.right;
+        Vector3 axis = GetYRotate() * Vector3.right;
         transform.RotateAround(player.transform.position, axis, angle);
 
         Quaternion rotate = Quaternion.AngleAxis(angle, axis);

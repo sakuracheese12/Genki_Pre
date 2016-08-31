@@ -29,7 +29,7 @@ public partial class PlayerController : MonoBehaviour {
 
     void Update ()
     {
-        Quaternion yRotate = mainCamera.GetComponent<CameraController>().getYRotate();
+        Quaternion yRotate = mainCamera.GetComponent<CameraController>().GetYRotate();
 
         // add torque
         int right = !Input.GetKey(KeyCode.D) ? Input.GetKey(KeyCode.A) ? -1 : 0 : 1;
