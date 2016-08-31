@@ -435,10 +435,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d42004c83c2cf24eaac2df610ec4403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mc: {fileID: 1058700132}
-  power: 5
+  mainCamera: {fileID: 1058700132}
+  seJump: {fileID: 8300000, guid: b9c91de5bff2dca46984abf7f3780067, type: 3}
+  seCollision: {fileID: 8300000, guid: 0a393ca4dfa59f9499499239e9c89c5b, type: 3}
+  torque: 5
   maxAV: 15
-  jump: 10
+  jumpPower: 10
+  contactOffset: 0.05
 --- !u!1001 &537577647
 Prefab:
   m_ObjectHideFlags: 0
