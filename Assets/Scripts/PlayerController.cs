@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public partial class PlayerController : MonoBehaviour {
 
     public GameObject mc;
-    public float speed = 50;
+    public float power = 5;
+    public float maxAV = 15;
     public float jump = 10;
     
     private Rigidbody rb;
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        rb.maxAngularVelocity = maxAV;
     }
 
     void Update ()
@@ -23,9 +26,9 @@ public class PlayerController : MonoBehaviour {
         int forward = !Input.GetKey(KeyCode.W) ? Input.GetKey(KeyCode.S) ? -1 : 0 : 1;
         int yyy = !Input.GetKey(KeyCode.E)? Input.GetKey(KeyCode.Q)? -1 : 0 : 1;
 
-        addTorque(right * speed, yRotate * Vector3.back);
-        addTorque(forward * speed, yRotate * Vector3.right);
-        addTorque(yyy * speed, yRotate * Vector3.down);
+        addTorque(right * power, yRotate * Vector3.back);
+        addTorque(forward * power, yRotate * Vector3.right);
+        addTorque(yyy * power, yRotate * Vector3.down);
 
         // jump
         if (Input.GetKeyDown(KeyCode.Space))
