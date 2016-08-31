@@ -52,7 +52,7 @@ public partial class PlayerController : MonoBehaviour {
         Vector3 normalSum = -normals.Aggregate((a, b) => a + b).normalized;
 
         // before jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (canJump && Input.GetKeyDown(KeyCode.Space))
         {
             jumpNormals.AddRange(normals);
         }
@@ -71,7 +71,7 @@ public partial class PlayerController : MonoBehaviour {
             .ToList();
 
         // before jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (canJump && Input.GetKeyDown(KeyCode.Space))
         {
             jumpNormals.AddRange(normals);
         }
@@ -98,6 +98,19 @@ public partial class PlayerController : MonoBehaviour {
         PlayClipAtPoint(seJump, normalSum);
         
         jumpNormals.Clear();
+
+        StartCoroutine(Cooling());
+    }
+
+    private IEnumerator Cooling()
+    {
+        canJump = false;
+        GetComponent<MeshRenderer>().enabled = false;
+
+        yield return new WaitForSeconds(cooltime);
+
+        canJump = true;
+        GetComponent<MeshRenderer>().enabled = true;
     }
 
     private void PlayClipAtPoint(AudioClip clip, Vector3 localPosition)
