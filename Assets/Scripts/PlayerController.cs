@@ -12,19 +12,19 @@ public partial class PlayerController : MonoBehaviour {
     public float torque = 5;
     public float maxAV = 15;
     public float jumpPower = 10;
-    public float contactOffset = 0.01f;
     public float cooltime = 1;
 
     private Rigidbody rb;
+    private Collider col;
     private List<Vector3> jumpNormals = new List<Vector3>();
     private bool canJump = true;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
 
         rb.maxAngularVelocity = maxAV;
-        GetComponent<Collider>().contactOffset = contactOffset;
     }
 
     void Update ()
@@ -92,15 +92,28 @@ public partial class PlayerController : MonoBehaviour {
     {
         if (jumpNormals.Count == 0) return;
 
+        PhysicMaterial pm = GetComponent<Collider>().material;
         Vector3 normalSum = -jumpNormals.Aggregate((a, b) => a + b).normalized;
+        jumpNormals.Clear();
 
         rb.AddForce(normalSum * jumpPower, ForceMode.Impulse);
         PlayClipAtPoint(seJump, normalSum);
-        
-        jumpNormals.Clear();
 
         StartCoroutine(Cooling());
     }
+
+/*
+    private IEnumerator Boost()
+    {
+        col.material.staticFriction =
+        col.material.dynamicFriction = 1.0f;
+
+        yield return new WaitForSeconds(0.2f);
+
+        col.material.staticFriction =
+        col.material.dynamicFriction = 0.5f;
+    }
+*/
 
     private IEnumerator Cooling()
     {

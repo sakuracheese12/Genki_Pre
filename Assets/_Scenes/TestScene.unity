@@ -439,9 +439,9 @@ MonoBehaviour:
   seJump: {fileID: 8300000, guid: b9c91de5bff2dca46984abf7f3780067, type: 3}
   seCollision: {fileID: 8300000, guid: 0a393ca4dfa59f9499499239e9c89c5b, type: 3}
   torque: 4
-  maxAV: 16
+  maxAV: 14
   jumpPower: 12
-  contactOffset: 0.05
+  contactOffset: 0.1
   cooltime: 0.2
 --- !u!1001 &537577647
 Prefab:
@@ -867,7 +867,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2004397278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.1, z: 0.7}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
