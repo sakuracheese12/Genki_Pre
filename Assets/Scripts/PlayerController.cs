@@ -14,9 +14,12 @@ public partial class PlayerController : MonoBehaviour {
 	public float jumpPower = 10;
 	public float boostPower = 1;
     public float cooltime = 1;
+	public int jumpFlame = 5;
 
     private Rigidbody rb;
 	private List<Vector3> jumpNormals = new List<Vector3>();
+	private bool isJump = false;
+	private int isJumpCount = 0;
 	private bool canJump = true;
 
     void Start()
@@ -41,6 +44,17 @@ public partial class PlayerController : MonoBehaviour {
 
         // jump
         AddJump();
+
+		// isJumpCount
+		if (isJumpCount == 0) {
+			isJump = false;
+		} else {
+			isJumpCount--;
+		}
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			isJump = true;
+			isJumpCount = jumpFlame;
+		}
     }
 
     void OnCollisionEnter(Collision collisionInfo)
@@ -51,7 +65,7 @@ public partial class PlayerController : MonoBehaviour {
         Vector3 normalSum = -normals.Aggregate((a, b) => a + b).normalized;
 
         // before jump
-        if (canJump && Input.GetKeyDown(KeyCode.Space))
+		if (canJump && isJump)
         {
             jumpNormals.AddRange(normals);
         }
@@ -70,7 +84,7 @@ public partial class PlayerController : MonoBehaviour {
             .ToList();
 
         // before jump
-        if (canJump && Input.GetKeyDown(KeyCode.Space))
+		if (canJump && isJump)
         {
             jumpNormals.AddRange(normals);
         }
@@ -97,9 +111,6 @@ public partial class PlayerController : MonoBehaviour {
 		jumpNormals.Clear();
 		Vector3 before = Quaternion.AngleAxis(90, normalSum) * rb.angularVelocity;
 		Vector3 boostVecter = GetProjectedVector(before, normalSum);
-		Debug.Log (before + ", " + boostVecter);
-		Debug.DrawRay (transform.position, before *5, Color.blue);
-		Debug.DrawRay (transform.position, boostVecter *5, Color.blue);
 
 		rb.AddForce(normalSum * jumpPower + boostVecter * boostPower, ForceMode.Impulse);
 
@@ -123,12 +134,10 @@ public partial class PlayerController : MonoBehaviour {
     private IEnumerator Cooling()
     {
         canJump = false;
-        GetComponent<MeshRenderer>().enabled = false;
 
         yield return new WaitForSeconds(cooltime);
 
         canJump = true;
-        GetComponent<MeshRenderer>().enabled = true;
     }
 
     private void PlayClipAtPoint(AudioClip clip, Vector3 localPosition)
