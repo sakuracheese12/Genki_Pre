@@ -10,19 +10,18 @@ public partial class PlayerController : MonoBehaviour {
     public AudioClip seCollision;
     // value
     public float torque = 5;
-    public float maxAV = 15;
-    public float jumpPower = 10;
+	public float maxAV = 15;
+	public float jumpPower = 10;
+	public float boostPower = 1;
     public float cooltime = 1;
 
     private Rigidbody rb;
-    private Collider col;
-    private List<Vector3> jumpNormals = new List<Vector3>();
-    private bool canJump = true;
+	private List<Vector3> jumpNormals = new List<Vector3>();
+	private bool canJump = true;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        col = GetComponent<Collider>();
 
         rb.maxAngularVelocity = maxAV;
     }
@@ -92,28 +91,34 @@ public partial class PlayerController : MonoBehaviour {
     {
         if (jumpNormals.Count == 0) return;
 
-        PhysicMaterial pm = GetComponent<Collider>().material;
+        //PhysicMaterial pm = col.material;
+		//TODO consider friction for boost
         Vector3 normalSum = -jumpNormals.Aggregate((a, b) => a + b).normalized;
-        jumpNormals.Clear();
+		jumpNormals.Clear();
+		Vector3 before = Quaternion.AngleAxis(90, normalSum) * rb.angularVelocity;
+		Vector3 boostVecter = GetProjectedVector(before, normalSum);
+		Debug.Log (before + ", " + boostVecter);
+		Debug.DrawRay (transform.position, before *5, Color.blue);
+		Debug.DrawRay (transform.position, boostVecter *5, Color.blue);
 
-        rb.AddForce(normalSum * jumpPower, ForceMode.Impulse);
+		rb.AddForce(normalSum * jumpPower + boostVecter * boostPower, ForceMode.Impulse);
+
         PlayClipAtPoint(seJump, normalSum);
 
         StartCoroutine(Cooling());
     }
 
-/*
-    private IEnumerator Boost()
-    {
-        col.material.staticFriction =
-        col.material.dynamicFriction = 1.0f;
+	private Vector3 GetProjectedVector(Vector3 before, Vector3 normal) 
+	{
+		// get projected vector
+		float angle = 0.0f;
+		Vector3 norm3 = Vector3.zero;
+		Quaternion.FromToRotation (normal, before).ToAngleAxis (out angle, out norm3);
+		Vector3 projected = Quaternion.AngleAxis (90 - angle, norm3) * before;
 
-        yield return new WaitForSeconds(0.2f);
-
-        col.material.staticFriction =
-        col.material.dynamicFriction = 0.5f;
-    }
-*/
+		// projection
+		return Vector3.Dot(before, projected) / projected.magnitude / projected.magnitude * projected;
+	}
 
     private IEnumerator Cooling()
     {
