@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d42004c83c2cf24eaac2df610ec4403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1058700132}
+  playerCamera: {fileID: 0}
   seJump: {fileID: 8300000, guid: b9c91de5bff2dca46984abf7f3780067, type: 3}
   seCollision: {fileID: 8300000, guid: 0a393ca4dfa59f9499499239e9c89c5b, type: 3}
   torque: 4
@@ -590,8 +590,8 @@ GameObject:
   - 81: {fileID: 1058700133}
   - 114: {fileID: 1058700138}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: PlayerCamera
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -657,10 +657,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1058700132}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 2, z: -2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -675,8 +675,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a6de4a975c4e14daf8ff340a37bb76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 460081891}
+  player: {fileID: 0}
   speed: 3
+  initOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1292606579 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400008, guid: 99587a6fd72acbc49b9d701c12c41e89, type: 3}
@@ -865,7 +866,7 @@ GameObject:
   - 23: {fileID: 2004397279}
   - 114: {fileID: 2004397283}
   m_Layer: 0
-  m_Name: Start
+  m_Name: StartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,8 +944,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e3b8f60a299df48b1d239194ebdd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1058700132}
-  player: {fileID: 460081891}
+  playerCamera: {fileID: 0}
+  player: {fileID: 0}
+  isLookAround: 0
 --- !u!1 &2058637552
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,16 +3,26 @@ using System.Collections;
 
 public class StartController : MonoBehaviour {
 
-    public GameObject mainCamera;
+	public GameObject playerCamera;
     public GameObject player;
-    private CameraController cc;
+	public bool isLookAround = true;
+
+	private PlayerCameraController cc;
     private Rigidbody prb;
 
     void Start()
-    {
-        cc = mainCamera.GetComponent<CameraController>();
+	{
+		// public v
+		if (playerCamera == null)
+			playerCamera = GameObject.Find ("PlayerCamera");
+		if (player == null)
+			player = GameObject.Find ("Player");
+
+		// private v
+		cc = playerCamera.GetComponent<PlayerCameraController>();
         prb = player.GetComponent<Rigidbody>();
 
+		// init
         StartGame();
     }
 
@@ -29,7 +39,8 @@ public class StartController : MonoBehaviour {
     private void StartGame()
     {
         ResetPosition();
-        StartCoroutine(LookAround());
+		if(isLookAround)
+        	StartCoroutine(LookAround());
     }
 
     private IEnumerator LookAround()

@@ -5,9 +5,9 @@ using System.Linq;
 
 public partial class PlayerController : MonoBehaviour {
 
-    public GameObject mainCamera;
-    public AudioClip seJump;
-    public AudioClip seCollision;
+	public GameObject playerCamera;
+	public AudioClip seJump;
+	public AudioClip seCollision;
     // value
     public float torque = 5;
 	public float maxAV = 15;
@@ -24,14 +24,20 @@ public partial class PlayerController : MonoBehaviour {
 
     void Start()
     {
+		// public v
+		if (playerCamera == null)
+			playerCamera = GameObject.Find ("PlayerCamera");
+
+		// private v
         rb = GetComponent<Rigidbody>();
 
+		// init
         rb.maxAngularVelocity = maxAV;
     }
 
     void Update ()
     {
-        Quaternion yRotate = mainCamera.GetComponent<CameraController>().GetYRotate();
+        Quaternion yRotate = playerCamera.GetComponent<PlayerCameraController>().GetYRotate();
 
         // add torque
         int right = !Input.GetKey(KeyCode.D) ? Input.GetKey(KeyCode.A) ? -1 : 0 : 1;
@@ -74,7 +80,7 @@ public partial class PlayerController : MonoBehaviour {
         PlayClipAtPoint(seCollision, normalSum);
 
         // debug
-        DebugCollision(collisionInfo, Color.red);
+        //DebugCollision(collisionInfo, Color.red);
     }
 
     void OnCollisionStay(Collision collisionInfo)
@@ -90,7 +96,7 @@ public partial class PlayerController : MonoBehaviour {
         }
 
         // debug
-        DebugCollision(collisionInfo);
+        //DebugCollision(collisionInfo);
     }
 
     // ---- private ----

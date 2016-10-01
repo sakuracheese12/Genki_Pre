@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour {
+public class PlayerCameraController : MonoBehaviour {
 
     public GameObject player;
     public float speed = 3;
@@ -11,10 +11,18 @@ public class CameraController : MonoBehaviour {
 
     void Start ()
     {
+		// public v
+		if (player == null)
+			player = GameObject.Find ("Player");
+
+		// private v
         offset = transform.position - player.transform.position;
 
         Vector3 projectedForward = Vector3.Scale(transform.forward, new Vector3(1, 0, 1));
         yRotate = Quaternion.FromToRotation(Vector3.forward, projectedForward);
+
+		// init
+		Latitude(30);
 	}
 
     void Update ()
